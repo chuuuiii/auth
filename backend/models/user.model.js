@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
-// import bcrypt from 'bcrypt';
-// import validator from 'validator';
+import bcrypt from 'bcrypt';
+import validator from 'validator';
 
 const userSchema = new mongoose.Schema(
   {
@@ -28,18 +28,36 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: [true, 'Password is required'],
       minlength: [6, 'Password must be at least 6 characters long'],
-      select: false 
+      select: false // Do not return password by default in queries
     },
     role: {
       type: String,
-      enum: ['user', 'admin'], 
+      enum: ['user', 'admin'], // Correct usage for enum
       default: 'user'
     }
   },
   { timestamps: true }
 );
 
-
+userSchema.statics.signup = async function(name, email, password, role) {
+  if (!name || !email || !password || !role) {
+    throw new Error('Please provide all the details');
+  }
+  if (!validator.isEmail(email)) {
+    throw new Error('Please provide a valid email');
+  }
+  if (!validator.isStrongPassword(password)) {
+    throw new Error('Password must be at least 6 characters long');
+  }
+  const existingUser = await this.findOne({ email });
+  if (existingUser) {
+    throw new Error('This email is already registered');
+  }
+  const salt = await bcrypt.genSalt(10);
+  const hash = await bcrypt.hash(password, salt);
+  const user = await this.create({ name, email, password: hash, role });
+  return user;
+};
 
 const User = mongoose.model('User', userSchema);
 export default User;
