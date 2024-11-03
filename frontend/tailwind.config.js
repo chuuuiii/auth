@@ -5,7 +5,22 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primary: '#1D4ED8',
+        secondary: '#6B7280',
+        light: '#F9FAFB',
+      },
+      fontFamily: {
+        roboto: ['Roboto', 'sans-serif']
+      }
+    },
   },
-  plugins: [],
+  plugins: [
+    require('daisyui'),
+    require('@tailwindcss/forms')
+  ],
+  daisyui: {
+    themes: ['dracula']
+  }
 }
