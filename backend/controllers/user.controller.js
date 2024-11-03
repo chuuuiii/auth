@@ -18,8 +18,23 @@ const getUsers = async (req, res) => {
 };
 
 // Login user
-const loginUser = (req, res) => {
-  res.json({ message: 'Login user' });
+const loginUser = async (req, res) => {
+
+  const { email, password } = req.body;
+
+  // if (!email || !password) {
+  //  return res.status(400).json({ success: false, message: "Both email and password are required" })
+  // }
+ 
+  try {
+    const user = await User.login(email, password);
+    const token = generateToken(user._id);
+    res.status(200).json({ success: true, data: { email: user.email, token} });
+  } catch (error) {
+    res.status(400).json({ success: false, message: error.message });
+  }
+
+  // res.json({ message: 'Login user' });
 };
 
 // Signup user
@@ -27,6 +42,7 @@ const signupUser = async (req, res) => {
   const { name, email, password, role } = req.body;
   try {
     const user = await User.signup(name, email, password, role);
+    //Generate a token
     const token = generateToken(user._id);
     res.status(201).json({ success: true, data: { email: user.email, token }});
   } catch (error) {
