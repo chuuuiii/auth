@@ -3,6 +3,7 @@ import { connectDB } from './config/db.js';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import userRoutes from './routes/user.route.js';
+// import path from 'path';
 
 dotenv.config();
 connectDB(); 
@@ -22,6 +23,16 @@ app.get('/', (req, res) => {
 });
 
 const PORT = process.env.PORT; 
+
+// const __dirname = path.resolve(); 
+
+// if (process.env.NODE === "production") {
+//   app.use(express.static(path.join(__dirname, "/frontend/dist")));
+
+//   app.get('*', (req, res) => {
+//     res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"));
+//   })
+// }
 
 app.listen(PORT, () => {
   console.log(`Server started at http://localhost:${PORT}`);
