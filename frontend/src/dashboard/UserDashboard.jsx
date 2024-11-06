@@ -1,7 +1,9 @@
 
 const UserDashboard = () => {
   return (
-    <div>UserDashboard</div>
+    <div className="text-3xl flex justify-center font-roboto font-semibold mt-5">
+      User Dashboard
+    </div>
   )
 }
 

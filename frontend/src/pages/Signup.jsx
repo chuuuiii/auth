@@ -10,7 +10,7 @@ export default function Signup() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col justify-center bg-light-gray px-6 py-12 sm:max-w-md sm:mx-auto">
+    <div className="flex flex-col justify-center bg-light-gray px-6 py-12 sm:max-w-md sm:mx-auto">
       <h1 className="text-center font-roboto text-2xl font-semibold">Create Account</h1>
       <div className="bg-white p-6 shadow-md rounded-md">
         <form onSubmit={handleSignup}>
